@@ -1,0 +1,151 @@
+@import "../../mixins.scss";
+.movieCard {
+    position:relative;
+    width: calc(50% - 5px);
+    margin-bottom: 25px;
+    cursor: pointer;
+    flex-shrink: 0;
+    @include md {
+        width: calc(25% - 15px);
+    }
+    @include lg {
+        width: calc(20% - 16px);
+    }
+    .posterBlock {
+        position: relative;
+        overflow: hidden;
+        width: 100%;
+        aspect-ratio: 1 / 1.5;
+        background-size: cover;
+        background-position: center;
+        margin-bottom: 30px;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        padding: 10px;
+        transition: all ease 0.5s;
+        border-radius: 12px;
+        .lazy-load-image-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center;
+            }
+        }
+        .circleRating {
+            width: 40px;
+            height: 40px;
+            position: relative;
+            top: 30px;
+            background-color: var(--white);
+            flex-shrink: 0;
+            @include md {
+                width: 50px;
+                height: 50px;
+            }
+        }
+        .genres {
+            display: none;
+            position: relative;
+            @include md {
+                display: flex;
+                flex-flow: wrap;
+                justify-content: flex-end;
+            }
+        }
+    }
+    .posterBlock{
+        .details{
+            position:absolute;
+            display: flex;
+            bottom: 50px;
+            justify-content: space-between;
+            align-items: center;
+            gap:20px;
+        }
+    }
+    @include md {
+    .posterBlock{
+        .details{
+            position:absolute;
+            display: flex;
+            // flex-direction: column;
+            justify-content: space-between;
+            align-items: center;
+            gap:20px;
+            bottom:-180px;
+            left:0;
+            padding:20px;
+            width:100%;
+            z-index:2;
+            transition:0.5s;
+            .circleRating{
+                position:relative;
+                top:0;
+
+            }
+        }
+    }
+    .posterBlock::before{
+        content:'';
+        position:absolute;
+        bottom:-180px;
+        width:100%;
+        height:100%;
+        border-radius: 12px;
+        overflow: hidden;
+        background:linear-gradient(0deg,#434444 20%,transparent);
+        transform: translateX(-9px);
+        transition:0.5s;
+        z-index:1;
+    }
+    &:hover{
+        .posterBlock::before{
+            bottom:0px;
+        }
+        .posterBlock{ 
+            .lazy-load-image-background{
+                img{
+                    transition:all 0.5s;
+                    filter:blur(5px);
+            }
+        }
+    }
+      .details{
+        bottom: 0px;
+      }
+    } 
+}
+   
+    .textBlock {
+        color: var(--white);
+        display: flex;
+        flex-direction: column;
+        .title {
+            font-size: 16px;
+            margin-bottom: 10px;
+            line-height: 24px;
+            @include ellipsis(1);
+            @include md {
+                font-size: 20px;
+            }
+        }
+        .date {
+            font-size: 14px;
+            opacity: 0.5;
+        }
+    }
+    // &:hover {
+    //     .posterBlock {
+    //         // opacity: 0.5;
+    //     }
+    // }
+}
