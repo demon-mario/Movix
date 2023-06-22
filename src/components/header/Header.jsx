@@ -46,6 +46,7 @@ const Header = (props) => {
     setShowSearch(false);
     props.setShowOverlay(false);
     setQuery("");
+    setOverFlowHidden("auto");
   }, [location]);
 
   useEffect(() => {
@@ -126,6 +127,7 @@ const Header = (props) => {
           <li className="menuItem" onClick={() => navigationHandler("movie")}>
             Movies
           </li>
+
           <li className="menuItem" onClick={() => navigationHandler("tv")}>
             TV Shows
           </li>
