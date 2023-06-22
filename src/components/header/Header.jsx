@@ -9,7 +9,7 @@ import "./style.scss";
 import ContentWrapper from "../contentWrapper/ContentWrapper";
 import logo from "../../assets/movix-logo.svg";
 
-const Header = () => {
+const Header = (props) => {
   const [show, setShow] = useState("top");
   const [lastScrollY, setLastScrollY] = useState(0);
   const [mobileMenu, setMobileMenu] = useState(false);
@@ -18,9 +18,34 @@ const Header = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const searchRef = useRef(null);
+  const [isHome, setIsHome] = useState(false);
+  const [searchError, setSearchError] = useState("");
+  // props.setTest(false);
+
+  useEffect(() => {
+    if (props.search && !props.showOverlay) {
+      hideSearch();
+    }
+  }, [props.search, props.showOverlay]);
+
+  const hideSearch = () => {
+    setSearchError("");
+    setShowSearch(false);
+    props.setShowOverlay(false);
+    setOverFlowHidden("auto");
+  };
 
   useEffect(() => {
     window.scrollTo(0, 0);
+    if (location.pathname === "/") {
+      setIsHome(true);
+    } else {
+      setIsHome(false);
+    }
+    setSearchError("");
+    setShowSearch(false);
+    props.setShowOverlay(false);
+    setQuery("");
   }, [location]);
 
   useEffect(() => {
@@ -49,7 +74,8 @@ const Header = () => {
     setMobileMenu(false);
 
     setShowSearch(true);
-
+    props.setShowOverlay(true);
+    setOverFlowHidden("hidden");
     setTimeout(() => {
       searchRef.current.focus();
     }, 0);
@@ -58,10 +84,12 @@ const Header = () => {
   const openMobileMenu = () => {
     setMobileMenu(true);
     setShowSearch(false);
+    props.setShowOverlay(false);
   };
 
   const searchInputChangeHandler = (event) => {
     setQuery(event.target.value);
+    setSearchError("");
   };
 
   const searchQueryHandler = (event) => {
@@ -69,15 +97,23 @@ const Header = () => {
     if (event.key === "Enter" && query.length > 0) {
       navigate(`/search/${query}`);
       // console.log(query);
+      setSearchError("");
       setTimeout(() => {
         setShowSearch(false);
+        props.setShowOverlay(false);
       }, 1000);
+      setQuery("");
+    } else if (query.length <= 0) {
+      setSearchError("error");
     }
   };
 
   const navigationHandler = (type) => {
     navigate(`explore/${type}`);
     setMobileMenu(false);
+  };
+  const setOverFlowHidden = (att) => {
+    document.body.style.overflow = att;
   };
 
   return (
@@ -94,11 +130,12 @@ const Header = () => {
             TV Shows
           </li>
           <li className="menuItem">
-            <HiOutlineSearch onClick={openSearch} />
+            {!isHome && <HiOutlineSearch onClick={openSearch} />}
           </li>
         </ul>
         <div className="mobileMenuItems">
-          <HiOutlineSearch onClick={openSearch} />
+          {!isHome && <HiOutlineSearch onClick={openSearch} />}
+
           {mobileMenu ? (
             <VscChromeClose onClick={() => setMobileMenu(false)} />
           ) : (
@@ -107,7 +144,7 @@ const Header = () => {
         </div>
       </ContentWrapper>
       {showSearch && (
-        <div className="searchBar">
+        <div className={`searchBar ${searchError}`}>
           <ContentWrapper>
             <div className="searchInput">
               <input
@@ -118,7 +155,7 @@ const Header = () => {
                 onChange={searchInputChangeHandler}
                 onKeyUp={searchQueryHandler}
               />
-              <VscChromeClose onClick={() => setShowSearch(false)} />
+              <VscChromeClose onClick={hideSearch} />
             </div>
           </ContentWrapper>
         </div>

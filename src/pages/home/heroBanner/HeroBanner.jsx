@@ -12,8 +12,11 @@ const HeroBanner = () => {
   const [query, setQuery] = useState("");
   const navigate = useNavigate();
   const url = useSelector((state) => state.home.url);
+  const [searchError, setSearchError] = useState("");
 
   const { data, loading } = useFetch("/movie/upcoming");
+
+  // console.log(searchError);
 
   useEffect(() => {
     const bg =
@@ -24,12 +27,16 @@ const HeroBanner = () => {
 
   const searchInputChangeHandler = (event) => {
     setQuery(event.target.value);
+    setSearchError("");
   };
 
   const searchQueryHandler = (event) => {
     // console.log(event.key, query.length);
-    if (event.key === "Enter" && query.length > 0) {
+    if ((event.key === "Enter" || event.type === "click") && query.length > 0) {
       navigate(`/search/${query}`);
+      setSearchError("");
+    } else if (query.length <= 0) {
+      setSearchError("error");
     }
   };
 
@@ -48,14 +55,14 @@ const HeroBanner = () => {
           <span className="subTitle">
             Millions of movies, TV shows and people to discover.Explore now.
           </span>
-          <div className="searchInput">
+          <div className={`searchInput ${searchError}`}>
             <input
               type="text"
               placeholder="Search for movie or TV show...."
               onChange={searchInputChangeHandler}
               onKeyUp={searchQueryHandler}
             />
-            <button>Search</button>
+            <button onClick={searchQueryHandler}>Search</button>
           </div>
         </div>
       </ContentWrapper>

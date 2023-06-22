@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchDataFromApi } from "./utils/api";
@@ -15,6 +15,9 @@ import PageNotFound from "./pages/404/PageNotFound";
 function App() {
   const url = useSelector((state) => state.home.url);
   const dispatch = useDispatch();
+  const [showOverlay, setShowOverlay] = useState(false);
+  const [search, setSearch] = useState(false);
+
   useEffect(() => {
     fetchApiConfig();
     genresCall();
@@ -22,8 +25,6 @@ function App() {
 
   const fetchApiConfig = () => {
     fetchDataFromApi("/configuration").then((res) => {
-      // console.log(res);
-
       const url = {
         backdrop: res.images.secure_base_url + "original",
         poster: res.images.secure_base_url + "original",
@@ -49,9 +50,21 @@ function App() {
     dispatch(getGenres(allGenres));
   };
 
+  const overlayClickHandler = () => {
+    setShowOverlay(false);
+    setSearch(true);
+  };
+
   return (
     <BrowserRouter>
-      <Header />
+      {showOverlay && (
+        <div onClick={overlayClickHandler} className="overlay"></div>
+      )}
+      <Header
+        search={search}
+        showOverlay={showOverlay}
+        setShowOverlay={setShowOverlay}
+      />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/:mediaType/:id" element={<Details />} />
