@@ -57,7 +57,7 @@ const HeroBanner = () => {
     setSearchError("");
     if (inputSearchRef.current.value !== "") {
       // console.log("output from the server....", data);
-      setShowSuggestionResults(null);
+      // setShowSuggestionResults(null);
       setShowSuggestion("");
       fetchSearchData();
     }
@@ -110,7 +110,7 @@ const HeroBanner = () => {
 
   const setSuggestedResultHandler = (event) => {
     setShowSuggestion("hide");
-    setShowSuggestionResults(null);
+    // setShowSuggestionResults(null);
     inputSearchRef.current.value = event.target.innerText;
   };
 

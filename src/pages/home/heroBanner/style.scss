@@ -79,6 +79,7 @@
       animation-iteration-count: 1;
       border:2px solid red;
       border-radius: 30px 30px 30px 30px;
+      
       }
       input{
         width: calc(100% - 100px);
@@ -118,11 +119,9 @@
     .searchResults{
       display: flex;
       flex-direction: column;
-      // height: 100px;
       width:100%;
-      transition: all 0.3s;
+      transition: opacity 0.3s;
       opacity: 1;
-      // visibility: visible;
       .searchItem{ 
          display: block;
          text-align: left;
@@ -131,13 +130,10 @@
         width:calc(100% - 115px);
         background-color: var(--white);
         color:var(--black);
-        
+        position: relative;
         border-bottom:1px solid black;
         padding:10px 20px;
         transform:translateX(15px);
-        // opacity: 1;
-        // transition: display 2.3s;
-        // visibility: visible;
         svg{
           margin-right: 10px;
         }
@@ -148,8 +144,6 @@
           word-wrap:break-word;
           font-size: 20px;
           padding:10px 20px;
-          // transition: display 2.3s;
-          // visibility: visible;
           transform:translateX(30px);
         }
         &:hover{
@@ -159,8 +153,6 @@
       }
       
       &.hide{
-        // transition: all 2s;
-        // display: none;
         opacity: 0;
       }
       
