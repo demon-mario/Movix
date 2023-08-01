@@ -1,12 +1,26 @@
-.genres{
+@import "../../mixins.scss";
+
+.genres {
   display: flex;
-  gap:5px;
-  .genre{
-    background-color:var(--pink);
-    padding:3px;
+  flex-direction: column;
+  flex-flow: wrap;
+  justify-content: flex-end;
+  gap: 5px;
+
+  @include md {
+    display: flex;
+    flex-direction: column;
+    flex-flow: wrap;
+    gap: 5px;
+    justify-content: flex-start;
+  }
+
+  .genre {
+    background-color: var(--pink);
+    padding: 3px;
     font-size: 12px;
     border-radius: 4px;
     color: var(--white);
-     white-space:nowrap;
+    white-space: nowrap;
   }
 }
