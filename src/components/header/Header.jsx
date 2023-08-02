@@ -20,6 +20,7 @@ const Header = (props) => {
   const searchRef = useRef(null);
   const [isHome, setIsHome] = useState(false);
   const [searchError, setSearchError] = useState("");
+  const [overFlowHidden, setOverFlowHidden] = useState("auto");
   // props.setTest(false);
 
   useEffect(() => {
@@ -28,12 +29,9 @@ const Header = (props) => {
     }
   }, [props.search, props.showOverlay]);
 
-  const hideSearch = () => {
-    setSearchError("");
-    setShowSearch(false);
-    props.setShowOverlay(false);
-    setOverFlowHidden("auto");
-  };
+  useEffect(() => {
+    document.body.style.overflow = overFlowHidden;
+  }, [overFlowHidden]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -57,6 +55,13 @@ const Header = (props) => {
       window.removeEventListener("scroll", controlNavbar);
     };
   }, [lastScrollY]);
+
+  const hideSearch = () => {
+    setSearchError("");
+    setShowSearch(false);
+    props.setShowOverlay(false);
+    setOverFlowHidden("auto");
+  };
 
   const controlNavbar = () => {
     if (window.scrollY > 200) {
@@ -112,9 +117,6 @@ const Header = (props) => {
   const navigationHandler = (type) => {
     navigate(`explore/${type}`);
     setMobileMenu(false);
-  };
-  const setOverFlowHidden = (att) => {
-    document.body.style.overflow = att;
   };
 
   return (
