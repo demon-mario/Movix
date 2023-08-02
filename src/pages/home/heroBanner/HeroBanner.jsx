@@ -51,6 +51,9 @@ const HeroBanner = () => {
         console.log(e);
       });
   };
+  useEffect(() => {
+    fetchSearchData();
+  }, [query]);
 
   const outcome = (data) => {
     setQuery({ data });
@@ -59,7 +62,6 @@ const HeroBanner = () => {
       // console.log("output from the server....", data);
       // setShowSuggestionResults(null);
       setShowSuggestion("");
-      fetchSearchData();
     }
   };
 
@@ -78,7 +80,7 @@ const HeroBanner = () => {
     };
   };
 
-  const result = debounce(outcome, 1000);
+  const result = debounce(outcome, 600);
 
   const searchInputChangeHandler = (event) => {
     // console.log(event.target.value);
